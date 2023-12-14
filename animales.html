@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #animals {
+            border: 1px solid blue;
+            background-color: lightblue;
+            padding: 10px;
+            text-align: center;
+        }
+
+        #animals span {
+            font-size: 50px;
+            margin: 5px;
+            text-shadow: 5px 3px 10px grey;
+        }
+
+        #categories{
+            margin: 5px;
+            display: grid;
+            grid-gap: 10px;
+            grid-auto-columns: minmax(100px, auto);
+            grid-auto-rows: minmax(100px, auto);
+        }
+
+        #categories .category{
+            background-color: red;
+            grid-row: 1;
+        }
+
+        #categories .category h2{
+            text-align: center;
+            color: white;
+            margin: 3px;
+        }
+        
+        #categories .category .panel{
+            margin: 2px;
+            background-color: salmon;
+            min-height: 80px;
+        }
+
+        .panel span {
+            font-size: 30px;
+            margin: 2px;
+        }
+
+</style>
+<!-- <link rel="stylesheet" type="text/css" href="https://www3.gobiernodecanarias.org/educacion/cau_ce/cookies/cookieconsent.min.css"/><script  type="text/javascript" src="https://www3.gobiernodecanarias.org/educacion/cau_ce/cookies/cookieconsent.min.js"></script><script type="text/javascript" src="https://www3.gobiernodecanarias.org/educacion/cau_ce/cookies/cauce_cookie.js"></script><script type="text/javascript" src="https://www3.gobiernodecanarias.org/educacion/cau_ce/estadisticasweb/scripts/piwik-base.js"></script><script type="text/javascript" src="https://www3.gobiernodecanarias.org/educacion/cau_ce/estadisticasweb/scripts/piwik-eforma.js"></script></head> -->
+<body>
+    <h1>Coloca los animales en su categoría</h1>
+    <div id="animals">
+        <!-- <span id="delfín" title="delfín">&#128044;</span> -->
+    </div>
+    <div id="categories">
+        <!-- <div class="category">
+            <h2>mamiferos</h2> -->
+            <div class="panel">
+                
+            </div>
+        <!--</div> -->
+    </div>
+    <script>
+const data = [
+    {name: "camello", code: "128043", category: "mamiferos"},
+    {name: "delfín", code: "128044", category: "mamiferos"},
+    {name: "mono", code: "128018", category: "mamiferos"},
+    {name: "ballena", code: "128011", category: "mamiferos"},
+    {name: "elefante", code: "128024", category: "mamiferos"},
+    {name: "murciélago", code: "129415", category: "mamiferos"},
+    {name: "foca", code: "129453", category: "mamiferos"},
+    {name: "gorila", code: "129421", category: "mamiferos"},
+    {name: "caballo", code: "128014", category: "mamiferos"},
+    {name: "conejo", code: "128007", category: "mamiferos"},
+    {name: "gato", code: "128008", category: "mamiferos"},
+    {name: "perro", code: "128021", category: "mamiferos"},
+    {name: "tigre", code: "128005", category: "mamiferos"},
+    {name: "canguro", code: "129432", category: "mamiferos"},
+    {name: "pingüino", code: "128039", category: "aves"},
+    {name: "gallo", code: "128019", category: "aves"},
+    {name: "pavo", code: "129411", category: "aves"},
+    {name: "pato", code: "129414", category: "aves"},
+    {name: "águila", code: "129413", category: "aves"},
+    {name: "búho", code: "129417", category: "aves"},
+    {name: "loro", code: "129436", category: "aves"},
+    {name: "cisne", code: "129442", category: "aves"},
+    {name: "tortuga", code: "128034", category: "reptiles"},
+    {name: "serpiente", code: "128013", category: "reptiles"},
+    {name: "cocodrilo", code: "128010", category: "reptiles"},
+    {name: "lagarto", code: "129422", category: "reptiles"},
+    {name: "rana", code: "128056", category: "anfibios"},
+    {name: "tiburón", code: "129416", category: "peces"},
+    {name: "pez_globo", code: "128033", category: "peces"},
+    {name: "pez_tropical", code: "128032", category: "peces"},
+    {name: "caracol", code: "128012", category: "moluscos"},
+    {name: "caracola", code: "128026", category: "moluscos"},
+    {name: "ostra", code: "129450", category: "moluscos"},
+    {name: "calamar", code: "129425", category: "moluscos"},
+    {name: "langosta", code: "129438", category: "crústaceos"},
+    {name: "gamba", code: "129424", category: "crústaceos"},
+    {name: "cangrejo", code: "129408", category: "crústaceos"},
+    {name: "araña", code: "128375", category: "arácnidos"},
+    {name: "escorpión", code: "129410", category: "arácnidos"},
+    {name: "mosquito", code: "129439", category: "insectos"},
+    {name: "mariquita", code: "128030", category: "insectos"},
+    {name: "abeja", code: "128029", category: "insectos"},
+    {name: "hormiga", code: "128028", category: "insectos"},
+    {name: "mariposa", code: "129419", category: "insectos"},
+    {name: "grillo", code: "129431", category: "insectos"},
+];
+
+    let animals = [];
+    let categoryArray = [];
+    const animalsContainer = document.querySelector("#animals");
+    const categoryContainer = document.querySelector("#categories");
+
+    while (animals.length < 10){
+        const random = Math.floor(Math.random() * data.length);
+        
+        if(!animals.includes(data[random])){
+            animals.push(data[random]);
+            if(!categoryArray.includes(data[random]["category"])){
+                categoryArray.push(data[random]["category"]);
+            }
+        }
+    }
+
+    animals.forEach(animal => {
+    animalsContainer.innerHTML += `<span id="${animal.name}" title="${animal.name}" category="${animal.category}" draggable="true" ondragstart="dragStart(event)"ondragend="dragEnd(event)">&#${animal.code};</span>`;
+    });
+
+    //para que no salga en orden
+    shuffle(categoryArray);
+
+    categoryArray.forEach(cat => {
+        categoryContainer.innerHTML += `<div class = "category" > <h2>${cat}</h2> <div class="panel"  ondragover="dragOver(event)" ondrop="drop(event)" category = "${cat}"> </div>`;
+    });
+
+
+    let parent = null;
+
+    function dragStart(event) {
+    event.dataTransfer.setData('text/plain', event.target.id);
+    parent = event.target.parentElement;
+    event.target.classList.add('selected');
+    // console.log(event.target.getAttribute('category'));
+    }
+
+    function dragEnd(event) {
+    event.target.classList.remove('selected');
+    }
+    
+    function dragOver(event) {
+        if (event.currentTarget !== parent) {
+        event.preventDefault();
+    }
+    }
+
+    function drop(event) {
+    const id = event.dataTransfer.getData('text/plain');
+    const element = document.getElementById(id);
+
+    // Obtener la categoría del elemento que se está soltando
+    const dropCategory = event.currentTarget.getAttribute('category');
+
+    // Obtener la categoría del elemento que se está arrastrando
+    const dragCategory = element.getAttribute('category');
+
+    // Verificar si el elemento es de la categoría correcta
+    if (dropCategory === dragCategory) {
+        // Agregar el elemento solo si es de la categoría correcta
+        event.currentTarget.append(element);
+    } 
+    }
+
+    function shuffle(array){
+        for (let i = array.length - 1; i > 0; i--) { 
+        const j = Math.floor(Math.random() * (i + 1)); 
+        [array[i], array[j]] = [array[j], array[i]]; 
+        } 
+    }
+    </script>
+</body>
+</html>
